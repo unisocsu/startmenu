@@ -32,3 +32,10 @@ jobs:
       with:
         name: build-log
         path: build.log
+
+    - name: Upload APKs
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: app-apks
+        path: app/build/outputs/apk/**/*.apk
