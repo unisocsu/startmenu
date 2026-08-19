@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,7 +53,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Bind Views
+        // Bind Base Views
         Button btnMenu = findViewById(R.id.btn_menu);
         startMenuPanel = findViewById(R.id.start_menu_panel);
         searchApps = findViewById(R.id.search_apps);
@@ -59,8 +61,16 @@ public class MainActivity extends Activity {
         trayClock = findViewById(R.id.tray_clock);
         trayDate = findViewById(R.id.tray_date);
         View desktopArea = findViewById(R.id.desktop_area);
-        Button btnSettings = findViewById(R.id.btn_settings);
-        Button btnCloseMenu = findViewById(R.id.btn_close_menu);
+
+        // Bind Navigation Rail Controls (Left Side of Start Menu)
+        ImageButton btnNavDocs = findViewById(R.id.btn_nav_docs);
+        ImageButton btnNavSettings = findViewById(R.id.btn_nav_settings);
+        ImageButton btnNavPower = findViewById(R.id.btn_nav_power);
+
+        // Bind Pinned Taskbar Buttons
+        ImageButton btnTaskbarBrowser = findViewById(R.id.btn_taskbar_browser);
+        ImageButton btnTaskbarPhone = findViewById(R.id.btn_taskbar_phone);
+        ImageButton btnTaskbarSettings = findViewById(R.id.btn_taskbar_settings);
 
         // Start status notification service
         startService(new Intent(this, StatusNotificationService.class));
@@ -73,7 +83,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        // Close Menu when clicking desktop or close button
+        // Close Menu when clicking desktop or power button
         desktopArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,19 +91,60 @@ public class MainActivity extends Activity {
             }
         });
 
-        btnCloseMenu.setOnClickListener(new View.OnClickListener() {
+        btnNavPower.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideStartMenu();
             }
         });
 
-        // Open System Settings
-        btnSettings.setOnClickListener(new View.OnClickListener() {
+        // Left Navigation: Open Documents/File Picker
+        btnNavDocs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Settings.ACTION_SETTINGS));
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                try {
+                    startActivity(Intent.createChooser(intent, "Open File Explorer"));
+                } catch (Exception e) {
+                    // Fallback if no file explorer found
+                }
                 hideStartMenu();
+            }
+        });
+
+        // Left Navigation: Open System Settings
+        btnNavSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSettings();
+            }
+        });
+
+        // Taskbar Pinned Shortcut: Browser
+        btnTaskbarBrowser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
+                startActivity(intent);
+            }
+        });
+
+        // Taskbar Pinned Shortcut: Dialer
+        btnTaskbarPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                startActivity(intent);
+            }
+        });
+
+        // Taskbar Pinned Shortcut: Settings
+        btnTaskbarSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSettings();
             }
         });
 
@@ -133,6 +184,11 @@ public class MainActivity extends Activity {
 
         // Run Clock Update
         setupClock();
+    }
+
+    private void openSettings() {
+        startActivity(new Intent(Settings.ACTION_SETTINGS));
+        hideStartMenu();
     }
 
     private void toggleStartMenu() {
@@ -193,7 +249,7 @@ public class MainActivity extends Activity {
 
     private void setupClock() {
         final SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault());
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/yyyy", Locale.getDefault());
 
         clockRunnable = new Runnable() {
             @Override
