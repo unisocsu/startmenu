@@ -21,10 +21,9 @@ jobs:
       run: |
         wget https://services.gradle.org/distributions/gradle-6.7.1-bin.zip
         unzip gradle-6.7.1-bin.zip
-        export PATH=$PATH:$PWD/gradle-6.7.1/bin
-        gradle -v
+        echo "$PWD/gradle-6.7.1/bin" >> $GITHUB_PATH
     - name: Build with Gradle
-      run: ./gradle-6.7.1/bin/gradle assembleDebug > build.log 2>&1
+      run: gradle assembleDebug > build.log 2>&1
       
     - name: Upload Build Log
       uses: actions/upload-artifact@v4
