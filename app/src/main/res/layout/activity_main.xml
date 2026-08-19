@@ -1,20 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="#121212">
 
-    <Button
-        android:id="@+id/btn_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Menu"
+    <!-- Desktop Area / Background -->
+    <LinearLayout
+        android:id="@+id/desktop_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/taskbar"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@android:drawable/sym_def_app_icon"
+            android:alpha="0.2"
+            android:contentDescription="Desktop Logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Menu OS"
+            android:textColor="#33FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click the Start button below to access your apps"
+            android:textColor="#22FFFFFF"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Start Menu Panel (Initially Hidden) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/start_menu_panel"
+        android:layout_width="320dp"
+        android:layout_height="450dp"
+        android:layout_above="@id/taskbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="#1F1F1F"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="16dp"
+        app:strokeColor="#33FFFFFF"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- Search Area -->
+            <EditText
+                android:id="@+id/search_apps"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@android:color/transparent"
+                android:hint="Search apps..."
+                android:textColorHint="#66FFFFFF"
+                android:textColor="#FFFFFF"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:drawablePadding="8dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#33FFFFFF"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- App List -->
+            <ListView
+                android:id="@+id/apps_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:divider="#22FFFFFF"
+                android:dividerHeight="1dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#33FFFFFF"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Quick Action Footer -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <Button
+                    android:id="@+id/btn_settings"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Settings"
+                    android:textColor="#0078D7"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btn_close_menu"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Close"
+                    android:textColor="#FF4444"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Bottom Taskbar -->
+    <LinearLayout
+        android:id="@+id/taskbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:background="#1C1C1C"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:elevation="8dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Menu Prototype"
-        android:layout_centerInParent="true" />
+        <!-- Start Button -->
+        <Button
+            android:id="@+id/btn_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:text="Start"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:backgroundTint="#0078D7"
+            android:textColor="#FFFFFF" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <!-- System Clock & Date Tray -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:id="@+id/tray_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:00 PM"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tray_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aug 18, 2026"
+                android:textColor="#88FFFFFF"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
 </RelativeLayout>
