@@ -17,13 +17,10 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-    - name: Install Gradle 6.7.1
-      run: |
-        wget https://services.gradle.org/distributions/gradle-6.7.1-bin.zip
-        unzip gradle-6.7.1-bin.zip
-        echo "$PWD/gradle-6.7.1/bin" >> $GITHUB_PATH
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
     - name: Build with Gradle
-      run: gradle assembleDebug > build.log 2>&1
+      run: ./gradlew assembleDebug > build.log 2>&1
       
     - name: Upload Build Log
       uses: actions/upload-artifact@v4
