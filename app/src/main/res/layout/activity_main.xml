@@ -257,6 +257,8 @@
             android:textSize="14sp"
             android:backgroundTint="#0078D7"
             android:textColor="#FFFFFF"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:paddingStart="12dp"
             android:paddingEnd="12dp" />
 
@@ -273,10 +275,12 @@
                 android:id="@+id/btn_taskbar_browser"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/item_selector"
                 android:src="@android:drawable/ic_menu_compass"
                 android:contentDescription="Browser"
                 android:tint="#38BDF8"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:scaleType="fitCenter" />
 
             <!-- Phone Dialer Shortcut -->
@@ -284,10 +288,12 @@
                 android:id="@+id/btn_taskbar_phone"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/item_selector"
                 android:src="@android:drawable/ic_menu_call"
                 android:contentDescription="Phone"
                 android:tint="#4ADE80"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:scaleType="fitCenter"
                 android:layout_marginStart="8dp" />
 
@@ -296,10 +302,12 @@
                 android:id="@+id/btn_taskbar_settings"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/item_selector"
                 android:src="@android:drawable/ic_menu_preferences"
                 android:contentDescription="Settings"
                 android:tint="#94A3B8"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:scaleType="fitCenter"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
